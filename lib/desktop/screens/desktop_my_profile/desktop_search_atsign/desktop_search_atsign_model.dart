@@ -7,6 +7,7 @@ class DesktopSearchAtSignModel extends ChangeNotifier {
 
   List<User> _users = [];
   List<User> _searchUsers = [];
+  List<String> _atsigns = [];
 
   List<User> get users => _users;
 

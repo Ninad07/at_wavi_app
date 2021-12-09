@@ -5,6 +5,7 @@ import 'package:at_wavi_app/desktop/widgets/desktop_empty_widget.dart';
 import 'package:at_wavi_app/desktop/widgets/desktop_tabbar.dart';
 import 'package:at_wavi_app/desktop/widgets/textfields/desktop_textfield.dart';
 import 'package:at_wavi_app/utils/colors.dart';
+import 'package:at_wavi_app/view_models/follow_service.dart';
 import 'package:at_wavi_app/view_models/user_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -121,6 +122,7 @@ class _DesktopSearchAtSignPageState extends State<DesktopSearchAtSignPage> {
                         return DesktopFollowItem(
                           title: model.searchUsers[index].atsign,
                           subTitle: '@${model.searchUsers[index].atsign}',
+                          onPressed: () {},
                         );
                       },
                     );

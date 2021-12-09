@@ -2,7 +2,9 @@ import 'package:at_wavi_app/desktop/services/theme/app_theme.dart';
 import 'package:at_wavi_app/desktop/utils/strings.dart';
 import 'package:at_wavi_app/desktop/widgets/desktop_empty_widget.dart';
 import 'package:at_wavi_app/desktop/widgets/textfields/desktop_textfield.dart';
+import 'package:at_wavi_app/services/size_config.dart';
 import 'package:at_wavi_app/utils/colors.dart';
+import 'package:at_wavi_app/view_models/follow_service.dart';
 import 'package:at_wavi_app/view_models/user_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +34,7 @@ class _DesktopFollowingPageState extends State<DesktopFollowingPage>
   @override
   Widget build(BuildContext context) {
     final appTheme = AppTheme.of(context);
+    SizeConfig().init(context);
     return ChangeNotifierProvider(
       create: (BuildContext c) {
         final userPreview = Provider.of<UserPreview>(context);
@@ -90,7 +93,7 @@ class _DesktopFollowingPageState extends State<DesktopFollowingPage>
             Expanded(
               child: Consumer<DesktopFollowingModel>(
                 builder: (_, model, child) {
-                  if (model.searchUsers.isEmpty) {
+                  if (_model.searchUsers.isEmpty) {
                     return Center(
                       child: DesktopEmptyWidget(
                         title: Strings.desktop_empty,
@@ -103,11 +106,22 @@ class _DesktopFollowingPageState extends State<DesktopFollowingPage>
                   } else {
                     return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: model.searchUsers.length,
+                      itemCount: _model.searchUsers.length,
                       itemBuilder: (context, index) {
+                        bool isFollowingThisAtsign =
+                        Provider.of<FollowService>(context, listen: false)
+                            .isFollowing(_model.atsigns[index]);
                         return DesktopFollowItem(
-                          title: model.searchUsers[index].atsign,
-                          subTitle: '@${model.searchUsers[index].atsign}',
+                          title: _model.searchUsers[index].atsign,
+                          subTitle: '@${_model.searchUsers[index].atsign}',
+                          isFollow: isFollowingThisAtsign,
+                          onPressed: () async {
+                            await Provider.of<FollowService>(
+                                context,
+                                listen: false)
+                                .performFollowUnfollow(
+                                _model.atsigns[index]);
+                          },
                         );
                       },
                     );

@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 class DesktopFollowItem extends StatefulWidget {
   String title;
   String subTitle;
+  bool isFollow;
+  VoidCallback onPressed;
 
   DesktopFollowItem({
     Key? key,
     required this.title,
     required this.subTitle,
+    this.isFollow = false,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -63,10 +67,13 @@ class _DesktopFollowItemState extends State<DesktopFollowItem>
             ),
           ),
           GestureDetector(
+            onTap: () {
+              widget.onPressed();
+            },
             child: Container(
               child: Center(
                 child: Text(
-                  'Unfollow',
+                  widget.isFollow ? 'Unfollow' : 'Follow',
                   style: TextStyle(
                     color: appTheme.secondaryTextColor,
                     fontSize: 14,

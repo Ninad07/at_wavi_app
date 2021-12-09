@@ -710,8 +710,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     _isSearchScreen
                         ? (SearchService()
                                     .getAlreadySearchedAtsignDetails(
-                                        _currentUser.atsign)!
-                                    .followers_count ??
+                                        _currentUser.atsign)?.followers_count ??
                                 '-')
                             .toString()
                         : '${followsCount(isFollowers: true)}',

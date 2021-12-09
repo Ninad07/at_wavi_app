@@ -10,6 +10,7 @@ import 'package:at_wavi_app/desktop/widgets/desktop_button.dart';
 import 'package:at_wavi_app/desktop/widgets/desktop_logo.dart';
 import 'package:at_wavi_app/model/at_follows_value.dart';
 import 'package:at_wavi_app/model/user.dart';
+import 'package:at_wavi_app/services/backend_service.dart';
 import 'package:at_wavi_app/services/field_order_service.dart';
 import 'package:at_wavi_app/services/nav_service.dart';
 import 'package:at_wavi_app/services/search_service.dart';
@@ -39,6 +40,7 @@ class DesktopProfileInfoPage extends StatefulWidget {
 
 class _DesktopProfileInfoPageState extends State<DesktopProfileInfoPage> {
   late User _currentUser;
+  bool _isSearchScreen = false;
 
   @override
   void initState() {
@@ -51,6 +53,11 @@ class _DesktopProfileInfoPageState extends State<DesktopProfileInfoPage> {
       _currentUser = User(
         atsign: AtClientManager.getInstance().atClient.getCurrentAtSign(),
       );
+    }
+    if ((widget.isPreview) &&
+        (_currentUser.atsign !=
+            BackendService().atClientInstance.getCurrentAtSign())) {
+      _isSearchScreen = true;
     }
   }
 
@@ -105,11 +112,11 @@ class _DesktopProfileInfoPageState extends State<DesktopProfileInfoPage> {
                     onTap: widget.onFollowerPressed,
                     child: _buildInteractiveItem(
                         Strings.desktop_followers,
-                        (SearchService()
+                        _isSearchScreen ? (SearchService()
                                     .getAlreadySearchedAtsignDetails(
                                         _currentUser.atsign)?.followers_count ??
                                 '-')
-                            .toString(),
+                            .toString() : '${followsCount()}',
                         appTheme),
                   ),
                   SizedBox(height: DesktopDimens.paddingSmall),
@@ -118,11 +125,11 @@ class _DesktopProfileInfoPageState extends State<DesktopProfileInfoPage> {
                     onTap: widget.onFollowingPressed,
                     child: _buildInteractiveItem(
                         Strings.desktop_following,
-                        (SearchService()
+                        _isSearchScreen ? (SearchService()
                             .getAlreadySearchedAtsignDetails(
                             _currentUser.atsign)?.following_count ??
                             '-')
-                            .toString(),
+                            .toString() : '${followsCount()}',
                         appTheme),
                   ),
                   SizedBox(height: DesktopDimens.paddingLarge),
