@@ -116,7 +116,10 @@ class _FollowingState extends State<Following>
               Divider(height: 1),
               SizedBox(height: 25),
               CustomInputField(
-                inputFieldColor: ColorConstants.MILD_GREY,
+                inputFieldColor:
+                    Theme.of(context).brightness == Brightness.light
+                        ? ColorConstants.MILD_GREY
+                        : ColorConstants.DARK_GREY,
                 width: 343.toWidth,
                 height: 60.toHeight,
                 hintText: '',
